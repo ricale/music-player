@@ -8,10 +8,10 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    // path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist'
   },
   devServer: {
-    contentBase: path.resolve(__dirname, './')
   },
   devtool: "cheap-eval-source-map",
   resolve: {
