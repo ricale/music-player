@@ -13,14 +13,12 @@ export function albums (state = initState, action) {
       const {albums: records} = action.payload;
       return Object.assign({}, state, {records});
 
-    // FIXME: maybe current is unnecessary
     case t.ALBUM_DETAIL_SUCCESS:
-      const {album: current} = action.payload;
-      return Object.assign({}, state, {current});
+      return state;
 
     case t.ALBUM_LIST_FAILURE:
     case t.ALBUM_DETAIL_FAILURE:
-      return Object.assign({}, state);
+      return state;
   }
 
   return state;

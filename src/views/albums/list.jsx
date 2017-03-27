@@ -10,18 +10,8 @@ class AlbumList extends Component {
     dispatch(actions.fetchAlbumList());
   }
 
-  getArtistName (artistId) {
-    const {entities: {artists}} = this.props;
-    if(artistId) {
-      return artists[artistId] ? artists[artistId].name : `artistId ${artistId}`;
-
-    } else {
-      return '';
-    }
-  }
-
   render () {
-    const {albums: {records: ids}, entities: {albums, artists}} = this.props;
+    const {ids, albums} = this.props;
 
     return (
       <div>
@@ -32,19 +22,19 @@ class AlbumList extends Component {
             </tr>
           </thead>
           <tbody>
-            {(ids || []).map((a) =>
-              <tr key={`album-row-${albums[a].id}`}>
+            {albums.map(album =>
+              <tr key={`album-row-${album.id}`}>
                 <td>
-                  <Link to={`/albums/${albums[a].id}`}>{albums[a].title}</Link>
+                  <Link to={`/albums/${album.id}`}>{album.title}</Link>
                 </td>
-                <td>{this.getArtistName(albums[a].artist)}</td>
-                <td>{this.getArtistName(albums[a].album_artist)}</td>
+                <td>{(album.artist || {}).name}</td>
+                <td>{(album.album_artist || {}).name}</td>
                 <td>
-                  {JSON.parse(albums[a].images)[0] &&
-                    <img src={`http://localhost:3000/images/${JSON.parse(albums[a].images)[0]}`} width={100} height={100} />
+                  {JSON.parse(album.images)[0] &&
+                    <img src={`http://localhost:3000/images/${JSON.parse(album.images)[0]}`} width={100} height={100} />
                   }
                 </td>
-                <td>{JSON.parse(albums[a].images)[0]}</td>
+                <td>{JSON.parse(album.images)[0]}</td>
               </tr>
             )}
           </tbody>
@@ -56,8 +46,17 @@ class AlbumList extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const {albums, entities} = state;
-  return {albums, entities};
+  const {albums: {records: ids}, entities} = state;
+
+  const artists = (entities || {}).artists;
+
+  const albums = (ids || []).map(id =>{
+    const album  = (entities && entities.albums)[id];
+    const artist = artists[album.artist];
+    return { ...album, artist }
+  })
+
+  return {albums};
 }
 
 export default connect(mapStateToProps)(AlbumList);

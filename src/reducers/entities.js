@@ -11,10 +11,11 @@ export function entities (state = initState, action) {
     //   return Object.assign({}, state);
 
     case t.ALBUM_LIST_SUCCESS:
-      return Object.assign({}, state, entities);
-
     case t.ALBUM_DETAIL_SUCCESS:
-      return Object.assign({}, state, entities);
+      return Object.assign({}, state, {
+        ...entities,
+        albums: Object.assign({}, state.albums, entities.albums)
+      });
   }
 
   return state;
