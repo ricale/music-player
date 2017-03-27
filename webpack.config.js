@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = {
   context: path.resolve(__dirname, './'),
@@ -17,6 +18,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx']
   },
+  plugins: [
+    new ProgressBarPlugin()
+  ],
   module: {
     rules: [
       {

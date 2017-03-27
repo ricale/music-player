@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+
 import * as actions from '../../actions/albums';
 
 class AlbumList extends Component {
@@ -32,10 +34,16 @@ class AlbumList extends Component {
           <tbody>
             {(ids || []).map((a) =>
               <tr key={`album-row-${albums[a].id}`}>
-                <td>{albums[a].title}</td>
+                <td>
+                  <Link to={`/albums/${albums[a].id}`}>{albums[a].title}</Link>
+                </td>
                 <td>{this.getArtistName(albums[a].artist)}</td>
                 <td>{this.getArtistName(albums[a].album_artist)}</td>
-                <td><img src={`http://localhost:3000/images/${JSON.parse(albums[a].images)[0]}`} width={100} height={100} /></td>
+                <td>
+                  {JSON.parse(albums[a].images)[0] &&
+                    <img src={`http://localhost:3000/images/${JSON.parse(albums[a].images)[0]}`} width={100} height={100} />
+                  }
+                </td>
                 <td>{JSON.parse(albums[a].images)[0]}</td>
               </tr>
             )}

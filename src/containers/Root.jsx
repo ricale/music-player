@@ -8,8 +8,9 @@ import createHistory from 'history/createHashHistory'
 
 import rootReducer from '../reducers';
 
-import App       from '../views/App';
-import AlbumList from '../views/albums/list';
+import App         from '../views/App';
+import AlbumList   from '../views/albums/list';
+import AlbumDetail from '../views/albums/detail';
 
 export default class Root extends Component {
   comopnentDidMount () {
@@ -33,7 +34,8 @@ export default class Root extends Component {
         <Router history={history}>
           <div>
             <Route path="/" component={App} />
-            <Route path="/albums" component={AlbumList} />
+            <Route path="/albums"     exact component={AlbumList} />
+            <Route path="/albums/:id"       component={AlbumDetail} />
           </div>
         </Router>
       </Provider>
