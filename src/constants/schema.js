@@ -1,12 +1,12 @@
 import { normalize, schema } from 'normalizr';
 
 const artist = new schema.Entity('artists');
-const track  = new schema.Entity('tracks');
+const music  = new schema.Entity('musics');
 
 const album  = new schema.Entity('albums', {
-  artist: artist,
+  artists: [artist],
   album_artist: artist,
-  tracks: [track]
+  tracks: [music]
 });
 
 export {album};

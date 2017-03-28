@@ -28,14 +28,16 @@ class AlbumDetail extends Component {
         <img src={`http://localhost:3000/images/${JSON.parse(album.images)[0]}`} width={200} height={200} />
 
         <div>
-          Artist: {albumArtist.name || artist.name}
+          Artist: {albumArtist.name}
         </div>
 
         {tracks.map(t =>
           <div key={`track-${t.id}`}>
             <span>{t.tracknum}</span>
-            {' '}
+            {' | '}
             <span>{t.title}</span>
+            {' | '}
+            <span>{t.artist && t.artist.name}</span>
           </div>
         )}
       </div>
@@ -54,14 +56,15 @@ function mapStateToProps (state, ownProps) {
 
   const artists = (entities && entities.artists || {});
 
-  const artist      = (album || {}).artist       && artists[album.artist]       || {};
   const albumArtist = (album || {}).album_artist && artists[album.album_artist] || {};
-  const tracks      = (album && album.tracks || []).map(t => entities.tracks[t]);
+  const tracks      = (album && album.tracks || []).map(t => ({
+    ...entities.musics[t],
+    artist: artists[entities.musics[t].artist_id]
+  }));
 
   return {
     id,
     album,
-    artist,
     albumArtist,
     tracks
   }

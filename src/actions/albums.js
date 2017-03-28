@@ -25,17 +25,19 @@ function request (url, requestAction, successAction, failureAction, options = {}
     dispatch(requestAction());
 
     return (
-      fetch(url, options).
-      then(checkStatus).
-      then(parseJson).
-      then(json => dispatch(successAction(json))).
-      catch(({response}) => {
+      fetch(url, options)
+      .then(checkStatus)
+      .then(parseJson)
+      .then(json => dispatch(successAction(json)))
+      .catch(({response}) => {
         if(response && response.json) {
-          response.json().then(json =>
-            dispatch(failureAction(json.message))
-          );
+          response.json().then(json => {
+            console.log('error', json.message);
+            return dispatch(failureAction(json.message));
+          });
 
         } else {
+          console.log('error', response);
           dispatch(failureAction(response));
         }
       })

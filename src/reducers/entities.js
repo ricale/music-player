@@ -14,7 +14,9 @@ export function entities (state = initState, action) {
     case t.ALBUM_DETAIL_SUCCESS:
       return Object.assign({}, state, {
         ...entities,
-        albums: Object.assign({}, state.albums, entities.albums)
+        albums:  Object.assign({}, state.albums,  entities.albums),
+        artists: Object.assign({}, state.artists, entities.artists),
+        musics:  Object.assign({}, state.musics,  entities.musics)
       });
   }
 

@@ -11,7 +11,7 @@ class AlbumList extends Component {
   }
 
   render () {
-    const {ids, albums} = this.props;
+    const {albums} = this.props;
 
     return (
       <div>
@@ -27,8 +27,10 @@ class AlbumList extends Component {
                 <td>
                   <Link to={`/albums/${album.id}`}>{album.title}</Link>
                 </td>
-                <td>{(album.artist || {}).name}</td>
-                <td>{(album.album_artist || {}).name}</td>
+                <td>
+                  {(album.album_artist || {}).id}<br/>
+                  {(album.album_artist || {}).name}
+                </td>
                 <td>
                   {JSON.parse(album.images)[0] &&
                     <img src={`http://localhost:3000/images/${JSON.parse(album.images)[0]}`} width={100} height={100} />
@@ -51,9 +53,9 @@ function mapStateToProps(state, ownProps) {
   const artists = (entities || {}).artists;
 
   const albums = (ids || []).map(id =>{
-    const album  = (entities && entities.albums)[id];
-    const artist = artists[album.artist];
-    return { ...album, artist }
+    const album = (entities && entities.albums)[id];
+    const album_artist = artists[album.album_artist];
+    return { ...album, album_artist }
   })
 
   return {albums};
