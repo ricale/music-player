@@ -5,9 +5,11 @@ import {Link} from 'react-router-dom';
 import * as actions from '../../actions/albums';
 
 class AlbumList extends Component {
-  componentDidMount () {
-    const {dispatch} = this.props;
-    dispatch(actions.fetchAlbumList());
+  componentWillMount () {
+    const {dispatch, albums} = this.props;
+    if((albums || []).length === 0) {
+      dispatch(actions.fetchAlbumList());
+    }
   }
 
   render () {
@@ -52,11 +54,12 @@ function mapStateToProps (state, ownProps) {
 
   const artists = (entities || {}).artists;
 
-  const albums = (ids || []).map(id => {
-    const album = (entities && entities.albums)[id];
-    const album_artist = artists[album.album_artist];
-    return { ...album, album_artist }
-  })
+  const albums = ownProps.albums ||
+    (ids || []).map(id => {
+      const album = (entities && entities.albums)[id];
+      const album_artist = artists[album.album_artist];
+      return { ...album, album_artist }
+    });
 
   return {albums};
 }

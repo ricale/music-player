@@ -25,11 +25,11 @@ class AlbumDetail extends Component {
       <div>
         <h2>{album.title}</h2>
 
-        <img src={`http://localhost:3000/images/${JSON.parse(album.images)[0]}`} width={200} height={200} />
-
         <div>
           Artist: {albumArtist.name}
         </div>
+
+        <img src={`http://localhost:3000/images/${JSON.parse(album.images)[0]}`} width={200} height={200} />
 
         {tracks.map(t =>
           <div key={`track-${t.id}`}>

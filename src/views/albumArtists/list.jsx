@@ -2,28 +2,28 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
-import * as actions from '../../actions/artists';
+import * as actions from '../../actions/albumArtists';
 
-class ArtistList extends Component {
+class AlbumArtistList extends Component {
   componentDidMount () {
     const {dispatch} = this.props;
-    dispatch(actions.fetchArtistList());
+    dispatch(actions.fetchAlbumArtistList());
   }
 
   render () {
-    const {artists} = this.props;
+    const {albumArtists} = this.props;
 
     return (
       <div>
-        <h2>Artist List</h2>
+        <h2>Album Artist List</h2>
         <table>
           <thead>
           </thead>
           <tbody>
-            {artists.map(artist =>
+            {albumArtists.map(artist =>
               <tr key={`artist-row-${artist.id}`}>
                 <td>
-                  <Link to={`albums${artist.id}`}>{artist.name}</Link>
+                  <Link to={`/album_artists/${artist.id}`}>{artist.name}</Link>
                 </td>
               </tr>
             )}
@@ -35,13 +35,13 @@ class ArtistList extends Component {
 }
 
 function mapStateToProps (state, ownProps) {
-  const {artists: {records: ids}, entities} = state;
+  const {albumArtists: {records: ids}, entities} = state;
 
-  const artists = (ids || []).map(id =>
+  const albumArtists = (ids || []).map(id =>
     (entities && entities.artists)[id]
   )
 
-  return {artists};
+  return {albumArtists};
 }
 
-export default connect(mapStateToProps)(ArtistList);
+export default connect(mapStateToProps)(AlbumArtistList);

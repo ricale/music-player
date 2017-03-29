@@ -8,10 +8,12 @@ import createHistory from 'history/createHashHistory'
 
 import rootReducer from '../reducers';
 
-import App         from '../views/App';
-import AlbumList   from '../views/albums/list';
-import AlbumDetail from '../views/albums/detail';
-import ArtistList  from '../views/artists/list';
+import App               from '../views/App';
+import AlbumList         from '../views/albums/list';
+import AlbumDetail       from '../views/albums/detail';
+import ArtistList        from '../views/artists/list';
+import AlbumArtistList   from '../views/albumArtists/list';
+import AlbumArtistDetail from '../views/albumArtists/detail';
 
 export default class Root extends Component {
   comopnentDidMount () {
@@ -37,7 +39,11 @@ export default class Root extends Component {
             <Route path="/" component={App} />
             <Route path="/albums"     exact component={AlbumList} />
             <Route path="/albums/:id"       component={AlbumDetail} />
-            <Route path="/artists"    exact component={ArtistList} />
+
+            <Route path="/artists" exact component={ArtistList} />
+
+            <Route path="/album_artists"     exact component={AlbumArtistList} />
+            <Route path="/album_artists/:id"       component={AlbumArtistDetail} />
           </div>
         </Router>
       </Provider>
