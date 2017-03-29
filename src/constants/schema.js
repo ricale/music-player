@@ -9,4 +9,4 @@ const album  = new schema.Entity('albums', {
   tracks: [music]
 });
 
-export {album};
+export {album, artist};

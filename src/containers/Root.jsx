@@ -11,6 +11,7 @@ import rootReducer from '../reducers';
 import App         from '../views/App';
 import AlbumList   from '../views/albums/list';
 import AlbumDetail from '../views/albums/detail';
+import ArtistList  from '../views/artists/list';
 
 export default class Root extends Component {
   comopnentDidMount () {
@@ -36,6 +37,7 @@ export default class Root extends Component {
             <Route path="/" component={App} />
             <Route path="/albums"     exact component={AlbumList} />
             <Route path="/albums/:id"       component={AlbumDetail} />
+            <Route path="/artists"    exact component={ArtistList} />
           </div>
         </Router>
       </Provider>

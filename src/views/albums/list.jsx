@@ -47,12 +47,12 @@ class AlbumList extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps (state, ownProps) {
   const {albums: {records: ids}, entities} = state;
 
   const artists = (entities || {}).artists;
 
-  const albums = (ids || []).map(id =>{
+  const albums = (ids || []).map(id => {
     const album = (entities && entities.albums)[id];
     const album_artist = artists[album.album_artist];
     return { ...album, album_artist }
