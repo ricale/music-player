@@ -31,15 +31,19 @@ class AlbumDetail extends Component {
 
         <img src={`http://localhost:3000/images/${JSON.parse(album.images)[0]}`} width={200} height={200} />
 
-        {tracks.map(t =>
-          <div key={`track-${t.id}`}>
-            <span>{t.tracknum}</span>
-            {' | '}
-            <span>{t.title}</span>
-            {' | '}
-            <span>{t.artist && t.artist.name}</span>
-          </div>
-        )}
+        <table>
+          <thead>
+          </thead>
+          <tbody>
+            {tracks.map(t =>
+              <tr key={`track-${t.id}`}>
+                <td>{t.tracknum}</td>
+                <td>{t.title}</td>
+                <td>{t.artist && t.artist.name}</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     )
   }

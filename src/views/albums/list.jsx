@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom';
 
 import * as actions from '../../actions/albums';
 
+import './list.less';
+
 class AlbumList extends Component {
   componentWillMount () {
     const {dispatch, albums} = this.props;
@@ -18,32 +20,20 @@ class AlbumList extends Component {
     return (
       <div>
         <h2>Album List</h2>
-        <table>
-          <thead>
-            <tr>
-            </tr>
-          </thead>
-          <tbody>
-            {albums.map(album =>
-              <tr key={`album-row-${album.id}`}>
-                <td>
-                  <Link to={`/albums/${album.id}`}>{album.title}</Link>
-                </td>
-                <td>
-                  {(album.album_artist || {}).id}<br/>
-                  {(album.album_artist || {}).name}
-                </td>
-                <td>
-                  {JSON.parse(album.images)[0] &&
-                    <img src={`http://localhost:3000/images/${JSON.parse(album.images)[0]}`} width={100} height={100} />
-                  }
-                </td>
-                <td>{JSON.parse(album.images)[0]}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
 
+        {albums.map((album, i) =>
+          <div className='album-item' key={`album-item-${i}`}>
+            <Link className='album-item__thumbnail' to={`/albums/${album.id}`}>
+              <img src={`http://localhost:3000/images/${JSON.parse(album.images)[0]}`} />
+            </Link>
+            <Link className='album-item__title' to={`/albums/${album.id}`}>
+              {album.title}
+            </Link>
+            <Link className='album-item__artist' to={`/album_artists/${album.album_artist_id}`}>
+              {(album.album_artist || {}).name}
+            </Link>
+          </div>
+        )}
       </div>
     )
   }

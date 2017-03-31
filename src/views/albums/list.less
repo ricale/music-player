@@ -1,0 +1,52 @@
+@screen-sizes:      768px, 992px, 1200px;
+@album-item-widths: 140px, 160px,  180px;
+
+.ellipsis {
+  white-space: nowrap;
+  word-wrap: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.album-item {
+  display: inline-block;
+  margin: 10px;
+  width: 200px;
+
+  .album-item__title {
+    display: block;
+    margin: 5px 0 3px;
+    color: #000;
+    text-decoration: none;
+    .ellipsis;
+  }
+
+  .album-item__artist {
+    margin: 3px 0 0 0;
+    font-size: 0.85em;
+    color: #999;
+    text-decoration: none;
+    .ellipsis;
+  }
+
+  img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .-(@i: length(@screen-sizes)) when (@i > 0) {
+    @screen-size:      extract(@screen-sizes, @i);
+    @album-item-width: extract(@album-item-widths, @i);
+
+    @media (max-width: @screen-size) {
+      width: @album-item-width;
+
+      img {
+        width: @album-item-width;
+        height: @album-item-width;
+      }
+    } 
+
+    .-((@i - 1));
+  } .-;
+}

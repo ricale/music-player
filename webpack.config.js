@@ -30,6 +30,10 @@ module.exports = {
           options: {presets: ['react', 'es2015', 'stage-0']}
         }],
         exclude: [/node_moduels/]
+      },
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader']
       }
     ]
   }
