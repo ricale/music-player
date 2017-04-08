@@ -12,6 +12,7 @@
   display: inline-block;
   margin: 10px;
   width: 200px;
+  background-color: #F3F3F3;
 
   .album-item__title {
     display: block;
@@ -22,6 +23,7 @@
   }
 
   .album-item__artist {
+    display: block;
     margin: 3px 0 0 0;
     font-size: 0.85em;
     color: #999;
@@ -49,4 +51,9 @@
 
     .-((@i - 1));
   } .-;
+}
+
+.album-item.open {
+  display: block;
+  width: auto;
 }
