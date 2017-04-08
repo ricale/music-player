@@ -3,17 +3,23 @@ import {connect} from 'react-redux';
 
 import PlayButton from '../../components/PlayButton';
 
-import * as actions from '../../actions/albums';
+import * as albumActions  from '../../actions/albums';
+import * as playerActions from '../../actions/player';
 
 class AlbumDetail extends Component {
   componentWillMount () {
     const {dispatch, id, album} = this.props;
     if(!album || !album.id) {
-      dispatch(actions.fetchAlbumDetail(id));
+      dispatch(albumActions.fetchAlbumDetail(id));
     }
   }
 
   componentWillReceiveProps () {
+  }
+
+  onClickPlayButton () {
+    const {dispatch, tracks} = this.props;
+    dispatch(playerActions.playMusics(tracks));
   }
 
   render () {
@@ -29,7 +35,7 @@ class AlbumDetail extends Component {
       <div>
         <h2>{album.title}</h2>
 
-        <PlayButton />
+        <PlayButton tracks={tracks} onClick={this.onClickPlayButton.bind(this)}/>
 
         <div>
           Artist: {albumArtist.name}

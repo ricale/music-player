@@ -5,12 +5,14 @@ import {albumArtists} from './albumArtists';
 import {albums}       from './albums';
 import {artists}      from './artists';
 import {entities}     from './entities';
+import {player}       from './player';
 
 const rootReducer = combineReducers({
   albumArtists,
   albums,
   artists,
   entities,
+  player,
   routing
 });
 
