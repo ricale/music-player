@@ -19,7 +19,8 @@ class AlbumDetail extends Component {
 
   onClickPlayButton () {
     const {dispatch, tracks} = this.props;
-    dispatch(playerActions.playMusics(tracks));
+    dispatch(playerActions.setPlaylist(tracks));
+    dispatch(playerActions.play());
   }
 
   render () {
