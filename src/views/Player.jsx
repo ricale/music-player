@@ -8,6 +8,8 @@ import * as actions from '../actions/player';
 import ODO from '../utils/odo';
 import ArrayUtil from '../utils/ArrayUtil';
 
+import './player.less';
+
 class Player extends Component {
   constructor (props) {
     super(props);
@@ -83,16 +85,22 @@ class Player extends Component {
   }
 
   render () {
-    const {playing, song, songArtist, songAlbum} = this.props;
+    const {playing, playlist, song, songArtist, songAlbum} = this.props;
+
+    if(!playlist || playlist.length === 0) {
+      return (
+        <div></div>
+      )
+    }
 
     return (
-      <div>
-        {song &&
-          <div>
-            [{songAlbum.title}] {song.tracknum}. {song.title} - {songArtist.name}
-          </div>
-        }
-        <div>
+      <div className='player'>
+        <div className='player__information'>
+          {song && 
+            `[${songAlbum.title}] ${song.tracknum}. ${song.title} - ${songArtist.name}`
+          }
+        </div>
+        <div className='player__controller'>
           {!playing &&
             <Icon name='play' size='2x' onClick={this.onClickPlay.bind(this)} />
           }

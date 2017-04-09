@@ -15,6 +15,8 @@ import ArtistList        from '../views/artists/list';
 import AlbumArtistList   from '../views/albumArtists/list';
 import AlbumArtistDetail from '../views/albumArtists/detail';
 
+import './Root.less';
+
 export default class Root extends Component {
   comopnentDidMount () {
 
@@ -37,13 +39,16 @@ export default class Root extends Component {
         <Router history={history}>
           <div>
             <Route path="/" component={App} />
-            <Route path="/albums"     exact component={AlbumList} />
-            <Route path="/albums/:id"       component={AlbumDetail} />
 
-            <Route path="/artists" exact component={ArtistList} />
+            <div className='contents'>
+              <Route path="/albums"     exact component={AlbumList} />
+              <Route path="/albums/:id"       component={AlbumDetail} />
 
-            <Route path="/album_artists"     exact component={AlbumArtistList} />
-            <Route path="/album_artists/:id"       component={AlbumArtistDetail} />
+              <Route path="/artists" exact component={ArtistList} />
+
+              <Route path="/album_artists"     exact component={AlbumArtistList} />
+              <Route path="/album_artists/:id"       component={AlbumArtistDetail} />
+            </div>
           </div>
         </Router>
       </Provider>
