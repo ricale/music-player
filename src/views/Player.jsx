@@ -83,10 +83,15 @@ class Player extends Component {
   }
 
   render () {
-    const {playing} = this.props;
+    const {playing, song, songArtist, songAlbum} = this.props;
 
     return (
       <div>
+        {song &&
+          <div>
+            [{songAlbum.title}] {song.tracknum}. {song.title} - {songArtist.name}
+          </div>
+        }
         <div>
           {!playing &&
             <Icon name='play' size='2x' onClick={this.onClickPlay.bind(this)} />
@@ -101,11 +106,20 @@ class Player extends Component {
 }
 
 function mapStateToProps (state, ownProps) {
-  const {playing, playlist, current} = state.player;
+  const {player: {playing, playlist, current}, entities: {artists, albums}} = state;
+
+  const song       = playlist[current];
+  const songArtist = song && artists[song.artist_id];
+  const songAlbum  = song && albums[song.album_id];
+
   return Object.assign({}, ownProps, {
     playing,
     current,
-    playlist
+    playlist,
+
+    song,
+    songArtist,
+    songAlbum
   })
 }
 
