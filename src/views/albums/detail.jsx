@@ -6,6 +6,8 @@ import PlayButton from '../../components/PlayButton';
 import * as albumActions  from '../../actions/albums';
 import * as playerActions from '../../actions/player';
 
+import ArrayUtil from '../../utils/ArrayUtil';
+
 class AlbumDetail extends Component {
   componentWillMount () {
     const {dispatch, id, album} = this.props;
@@ -19,12 +21,30 @@ class AlbumDetail extends Component {
 
   onClickPlayButton () {
     const {dispatch, tracks} = this.props;
-    dispatch(playerActions.setPlaylist(tracks));
-    dispatch(playerActions.play());
+    if(this.isPlaying()) {
+      dispatch(playerActions.pause());
+
+    } else if(this.isEqualToPlaylist()) {
+      dispatch(playerActions.play());
+
+    } else {
+      dispatch(playerActions.setPlaylist(tracks));
+      dispatch(playerActions.play());
+    }
+  }
+
+  isEqualToPlaylist () {
+    const {tracks, playlist} = this.props;
+    return ArrayUtil.isEqual(tracks.map(t => t.id), playlist.map(p => p.id))
+  }
+
+  isPlaying () {
+    const {playing} = this.props;
+    return playing && this.isEqualToPlaylist();
   }
 
   render () {
-    const {album, albumArtist, tracks} = this.props;
+    const {album, albumArtist, tracks, playing, playlist} = this.props;
 
     if(!album) {
       return (
@@ -36,7 +56,11 @@ class AlbumDetail extends Component {
       <div>
         <h2>{album.title}</h2>
 
-        <PlayButton tracks={tracks} onClick={this.onClickPlayButton.bind(this)}/>
+        <PlayButton
+          tracks={tracks}
+          onClick={this.onClickPlayButton.bind(this)}
+          playing={this.isPlaying()}
+        />
 
         <div>
           Artist: {albumArtist.name}
@@ -65,7 +89,7 @@ class AlbumDetail extends Component {
 
 // FIXME: refactory this and albums/list
 function mapStateToProps (state, ownProps) {
-  const {albums, entities} = state;
+  const {albums, entities, player: {playing, playlist}} = state;
   const {match} = ownProps;
 
   const id    = (match    && match.params || {}).id;
@@ -87,7 +111,10 @@ function mapStateToProps (state, ownProps) {
     id,
     album,
     albumArtist,
-    tracks
+    tracks,
+
+    playing,
+    playlist
   }
 }
 

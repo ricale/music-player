@@ -22,3 +22,4 @@ export const ALBUM_ARTIST_DETAIL_FAILURE = 'ALBUM_ARTIST_DETAIL_FAILURE';
 export const PLAY  = 'PLAY';
 export const PAUSE = 'PAUSE';
 export const SET_PLAYLIST = 'SET_PLAYLIST';
+export const END_PLAYLIST = 'END_PLAYLIST';

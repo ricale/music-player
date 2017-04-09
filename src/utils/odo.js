@@ -12,35 +12,30 @@ export default class ODO {
   }
 
   _onEnd (instanceId) {
-    console.log('_onEnd (instanceId) {')
     if(typeof this.onEnd === 'function') {
       this.onEnd(instanceId);
     }
   }
 
   _onPause (instanceId) {
-    console.log('_onPause (instanceId) {')
     if(typeof this.onPause === 'function') {
       this.onPause(instanceId);
     }
   }
 
   _onPlay (instanceId) {
-    console.log('_onPlay (instanceId) {')
     if(typeof this.onPlay === 'function') {
       this.onPlay(instanceId);
     }
   }
 
   _onStop (instanceId) {
-    console.log('_onStop (instanceId) {')
     if(typeof this.onStop === 'function') {
       this.onStop(instanceId);
     }
   }
 
   _playWithNewAudioInstance () {
-    console.log('_playWithNewAudioInstance () {')
     if(this.audio) {
       delete this.audio;
     }
@@ -57,10 +52,10 @@ export default class ODO {
   }
 
   setPlaylist (playlist) {
-    console.log('setPlaylist (playlist) {')
     this.playlist = playlist;
     this.instanceId = undefined;
     if(this.audio) {
+      this.audio.stop();
       delete this.audio;
     }
 
@@ -68,7 +63,6 @@ export default class ODO {
   }
 
   play (index) {
-    console.log('play (index) {')
     if(index !== undefined && index !== this.current) {
       this.current = index;
       this._playWithNewAudioInstance();
@@ -85,29 +79,24 @@ export default class ODO {
   }
 
   pause () {
-    console.log('pause () {')
     this.audio.pause();
     return this;
   }
 
   stop () {
-    console.log('stop () {')
     this.audio.stop();
     return this;
   }
 
   next () {
-    console.log('next () {')
 
   }
 
   prev () {
-    console.log('prev () {')
 
   }
 
   plyaing () {
-    console.log('plyaing () {')
     return this.audio.playing();
   }
 }

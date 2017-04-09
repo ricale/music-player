@@ -6,6 +6,7 @@ import Icon from '../components/Icon';
 import * as actions from '../actions/player';
 
 import ODO from '../utils/odo';
+import ArrayUtil from '../utils/ArrayUtil';
 
 class Player extends Component {
   constructor (props) {
@@ -33,7 +34,6 @@ class Player extends Component {
     } = nextProps;
 
     if(playing !== nextPlaying) {
-
       if(nextPlaying) {
         if(playlist !== nextPlaylist) {
           this.audio.setPlaylist(nextPlaylist)
@@ -48,7 +48,7 @@ class Player extends Component {
     }
 
 
-    if(playlist !== nextPlaylist) {
+    if(!ArrayUtil.isEqual(playlist.map(p => p.id), nextPlaylist.map(p => p.id))) {
       this.audio.setPlaylist(nextPlaylist);
       if(nextPlaying) {
         this.audio.play();
@@ -58,6 +58,7 @@ class Player extends Component {
     }
 
     if(current !== nextCurrent) {
+      console.log('if(current !== nextCurrent) {')
       this.audio.play(nextCurrent);
     }
   }
