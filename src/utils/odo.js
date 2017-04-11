@@ -1,3 +1,4 @@
+/*global Howl*/
 import 'howler';
 
 export default class ODO {

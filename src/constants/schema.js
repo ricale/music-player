@@ -1,4 +1,4 @@
-import { normalize, schema } from 'normalizr';
+import { schema } from 'normalizr';
 
 const artist = new schema.Entity('artists', {
   albums: [new schema.Entity('albums')]

@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions';
 import {normalize} from 'normalizr';
-import {request} from '../utils/request'
+import {request} from '../utils/request';
 
 import * as t from '../constants/actionTypes';
 import * as s from '../constants/schema';
@@ -18,7 +18,7 @@ export function fetchAlbumList () {
     albumListRequest,
     albumListSuccess,
     albumListFailure
-  )
+  );
 }
 
 const albumDetailRequest = createAction(t.ABLUM_DETAIL_REQUEST, () => ({}));
@@ -34,5 +34,5 @@ export function fetchAlbumDetail (id) {
     albumDetailRequest,
     albumDetailSuccess,
     albumDetailFailure
-  )
+  );
 }

@@ -8,11 +8,12 @@ const initState = {
 
 export function player (state = initState, action) {
   switch(action.type) {
-    case t.PLAY:
-    case t.PAUSE:
-    case t.SET_PLAYLIST:
-      const {player} = action.payload;
-      return Object.assign({}, state, player);
+  case t.PLAY:
+  case t.PAUSE:
+  case t.SET_PLAYLIST: {
+    const {player} = action.payload;
+    return Object.assign({}, state, player);
+  }
   }
 
   return state;

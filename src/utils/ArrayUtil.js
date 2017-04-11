@@ -9,7 +9,7 @@ export default {
 
     a.forEach(i => {
       b = b.filter(j => j !== i);
-    })
+    });
 
     return b.length === 0;
   }
