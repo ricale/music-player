@@ -11,7 +11,7 @@ import ArrayUtil from '../../utils/ArrayUtil';
 class AlbumDetail extends Component {
   componentWillMount () {
     const {dispatch, id, album} = this.props;
-    if(!album || !album.id) {
+    if(this.needToData()) {
       dispatch(albumActions.fetchAlbumDetail(id));
     }
   }
@@ -31,6 +31,15 @@ class AlbumDetail extends Component {
       dispatch(playerActions.setPlaylist(tracks));
       dispatch(playerActions.play());
     }
+  }
+
+  needToData () {
+    const {album, albumArtist, tracks} = this.props;
+    return (
+      !album || !album.id ||
+      !albumArtist || !albumArtist.id ||
+      !tracks || !tracks.length === 0
+    )
   }
 
   isEqualToPlaylist () {

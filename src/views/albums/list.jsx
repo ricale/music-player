@@ -48,7 +48,7 @@ class AlbumList extends Component {
               </Link>
             </div>
             <div className='album-item__artist'>
-              {(album.album_artist || {}).name}
+              {album.album_artist_name}
             </div>
 
             {opend === i &&
@@ -67,14 +67,8 @@ class AlbumList extends Component {
 function mapStateToProps (state, ownProps) {
   const {albums: {records: ids}, entities} = state;
 
-  const artists = (entities || {}).artists;
-
   const albums = ownProps.albums ||
-    (ids || []).map(id => {
-      const album = (entities && entities.albums)[id];
-      const album_artist = artists[album.album_artist];
-      return { ...album, album_artist }
-    });
+    (ids || []).map(id => (entities && entities.albums)[id]);
 
   return {albums};
 }

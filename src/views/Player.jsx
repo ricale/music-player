@@ -60,7 +60,6 @@ class Player extends Component {
     }
 
     if(current !== nextCurrent) {
-      console.log('if(current !== nextCurrent) {')
       this.audio.play(nextCurrent);
     }
   }
