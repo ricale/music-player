@@ -3,14 +3,15 @@ import * as t from '../constants/actionTypes';
 const initState = {
   playing:  false,
   playlist: [],
-  current:  0,
+  current:  null,
 };
 
 export function player (state = initState, action) {
   switch(action.type) {
   case t.PLAY:
   case t.PAUSE:
-  case t.SET_PLAYLIST: {
+  case t.SET_PLAYLIST:
+  case t.END_PLAYLIST: {
     const {player} = action.payload;
     return Object.assign({}, state, player);
   }

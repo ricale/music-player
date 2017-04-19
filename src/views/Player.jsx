@@ -17,6 +17,11 @@ class Player extends Component {
       host: `http://localhost:3000/`,
       onEnd: this.onEndOne.bind(this)
     });
+
+    this.onClickPlay = this.onClickPlay.bind(this)
+    this.onClickPause = this.onClickPause.bind(this)
+    this.onClickBackward = this.onClickBackward.bind(this)
+    this.onClickForward = this.onClickForward.bind(this)
   }
 
   componentWillMount () {
@@ -43,7 +48,11 @@ class Player extends Component {
         this.audio.play();
 
       } else {
-        this.audio.pause();
+        if(nextCurrent === null) {
+          this.audio.stop();
+        } else {
+          this.audio.pause();
+        }
       }
 
       return;
@@ -66,12 +75,30 @@ class Player extends Component {
 
   onClickPlay () {
     const {dispatch, current} = this.props;
-    dispatch(actions.play(current));
+    dispatch(actions.play(current || 0));
   }
 
   onClickPause () {
     const {dispatch} = this.props;
     dispatch(actions.pause());
+  }
+
+  onClickBackward () {
+    const {dispatch, current} = this.props;
+    if(current === 0) {
+      dispatch(actions.endPlaylist());
+    } else {
+      dispatch(actions.play(current - 1));
+    }
+  }
+
+  onClickForward () {
+    const {dispatch, current, playlist} = this.props;
+    if(current === playlist.length - 1) {
+      dispatch(actions.endPlaylist());
+    } else {
+      dispatch(actions.play(current + 1));
+    }
   }
 
   onEndOne () {
@@ -100,11 +127,17 @@ class Player extends Component {
           }
         </div>
         <div className='player__controller'>
+          {playing &&
+            <Icon name='fast-backward' size='2x' onClick={this.onClickBackward} />
+          }
           {!playing &&
-            <Icon name='play' size='2x' onClick={this.onClickPlay.bind(this)} />
+            <Icon name='play' size='2x' onClick={this.onClickPlay} />
           }
           {playing &&
-            <Icon name='pause' size='2x' onClick={this.onClickPause.bind(this)} />
+            <Icon name='pause' size='2x' onClick={this.onClickPause} />
+          }
+          {playing &&
+            <Icon name='fast-forward' size='2x' onClick={this.onClickForward} />
           }
         </div>
       </div>

@@ -36,9 +36,17 @@ export default class ODO {
     }
   }
 
+  _stopAndDeleteAudioInstance () {
+    this.instanceId = undefined;
+    if(this.audio) {
+      this.audio.stop();
+      delete this.audio;
+    }
+  }
+
   _playWithNewAudioInstance () {
     if(this.audio) {
-      delete this.audio;
+      this._stopAndDeleteAudioInstance();
     }
 
     this.audio = new Howl({
@@ -54,10 +62,8 @@ export default class ODO {
 
   setPlaylist (playlist) {
     this.playlist = playlist;
-    this.instanceId = undefined;
     if(this.audio) {
-      this.audio.stop();
-      delete this.audio;
+      this._stopAndDeleteAudioInstance();
     }
 
     return this;
@@ -85,8 +91,8 @@ export default class ODO {
   }
 
   stop () {
-    this.audio.stop();
-    return this;
+    this.current = 0;
+    this._stopAndDeleteAudioInstance();
   }
 
   next () {
