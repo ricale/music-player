@@ -11,7 +11,9 @@ export function player (state = initState, action) {
   case t.PLAY:
   case t.PAUSE:
   case t.SET_PLAYLIST:
-  case t.END_PLAYLIST: {
+  case t.END_PLAYLIST:
+  case t.SHOW_PLAYLIST:
+  case t.HIDE_PLAYLIST: {
     const {player} = action.payload;
     return Object.assign({}, state, player);
   }

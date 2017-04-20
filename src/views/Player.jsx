@@ -18,10 +18,11 @@ class Player extends Component {
       onEnd: this.onEndOne.bind(this)
     });
 
-    this.onClickPlay = this.onClickPlay.bind(this)
-    this.onClickPause = this.onClickPause.bind(this)
-    this.onClickBackward = this.onClickBackward.bind(this)
-    this.onClickForward = this.onClickForward.bind(this)
+    this.onClickPlay = this.onClickPlay.bind(this);
+    this.onClickPause = this.onClickPause.bind(this);
+    this.onClickBackward = this.onClickBackward.bind(this);
+    this.onClickForward = this.onClickForward.bind(this);
+    this.onClickList = this.onClickList.bind(this);
   }
 
   componentWillMount () {
@@ -84,7 +85,12 @@ class Player extends Component {
   }
 
   onClickBackward () {
-    const {dispatch, current} = this.props;
+    const {playing, dispatch, current} = this.props;
+
+    if(!playing) {
+      return;
+    }
+
     if(current === 0) {
       dispatch(actions.endPlaylist());
     } else {
@@ -93,12 +99,27 @@ class Player extends Component {
   }
 
   onClickForward () {
-    const {dispatch, current, playlist} = this.props;
+    const {playing, dispatch, current, playlist} = this.props;
+
+    if(!playing) {
+      return;
+    }
+
     if(current === playlist.length - 1) {
       dispatch(actions.endPlaylist());
     } else {
       dispatch(actions.play(current + 1));
     }
+  }
+
+  onClickList () {
+    const {playlist, dispatch, showPlaylist} = this.props;
+
+    if(!playlist) {
+      return;
+    }
+
+    dispatch(actions.showPlaylist(!showPlaylist));
   }
 
   onEndOne () {
@@ -111,7 +132,7 @@ class Player extends Component {
   }
 
   render () {
-    const {playing, playlist, song, songArtist, songAlbum} = this.props;
+    const {playing, playlist, song, songArtist, songAlbum, showPlaylist} = this.props;
 
     if(!playlist || playlist.length === 0) {
       return (
@@ -122,40 +143,57 @@ class Player extends Component {
     return (
       <div className='player'>
         <div className='player__information'>
-          {song && 
-            `[${songAlbum.title}] ${song.tracknum}. ${song.title} - ${songArtist.name}`
+          {song ?
+            `[${songAlbum.title}] ${song.tracknum}. ${song.title} - ${songArtist.name}` :
+            "I'M READY"
           }
         </div>
         <div className='player__controller'>
-          {playing &&
-            <Icon name='fast-backward' size='2x' onClick={this.onClickBackward} />
-          }
+          <Icon name='fast-backward' size='2x' onClick={this.onClickBackward} disabled={!playing} />
+
           {!playing &&
             <Icon name='play' size='2x' onClick={this.onClickPlay} />
           }
           {playing &&
             <Icon name='pause' size='2x' onClick={this.onClickPause} />
           }
-          {playing &&
-            <Icon name='fast-forward' size='2x' onClick={this.onClickForward} />
-          }
+
+          <Icon name='fast-forward' size='2x' onClick={this.onClickForward} disabled={!playing} />
+
+          <Icon name='list' size='2x' onClick={this.onClickList} />
         </div>
+
+        {showPlaylist &&
+          <div className='player__playlist'>
+            <table>
+              <thead>
+              </thead>
+              <tbody>
+                {playlist.map(t =>
+                  <tr key={`playlist-${t.id}`}>
+                    <td>{t.tracknum}</td>
+                    <td>{t.title}</td>
+                    <td>{t.artist && t.artist.name}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        }
       </div>
     )
   }
 }
 
 function mapStateToProps (state, ownProps) {
-  const {player: {playing, playlist, current}, entities: {artists, albums}} = state;
+  const {player, entities: {artists, albums}} = state;
 
-  const song       = playlist[current];
+  const song       = player.playlist[player.current];
   const songArtist = song && artists[song.artist_id];
   const songAlbum  = song && albums[song.album_id];
 
   return Object.assign({}, ownProps, {
-    playing,
-    current,
-    playlist,
+    ...player,
 
     song,
     songArtist,
