@@ -10,6 +10,8 @@ export default class ODO {
     this.onPause  = options.onPause;
     this.onPlay   = options.onPlay;
     this.onStop   = options.onStop;
+
+    this.setVolume(options.volume);
   }
 
   _onEnd (instanceId) {
@@ -51,6 +53,7 @@ export default class ODO {
 
     this.audio = new Howl({
       src: `${this.host || ''}${this.playlist[this.current].path}`,
+      volume:  this.volume,
       onend:   this._onEnd.bind(this),
       onpause: this._onPause.bind(this),
       onplay:  this._onPlay.bind(this),
@@ -96,14 +99,32 @@ export default class ODO {
   }
 
   next () {
-
   }
 
   prev () {
-
   }
 
   plyaing () {
     return this.audio.playing();
+  }
+
+  setVolume (volume) {
+    if(volume === undefined || volume === null) {
+      volume = 100;
+    }
+
+    if(volume < 0) {
+      volume = 0;
+    }
+
+    if(volume > 1) {
+      volume = 1;
+    }
+
+    this.volume = volume;
+
+    if(this.audio) {
+      this.audio.volume(this.volume);
+    }
   }
 }

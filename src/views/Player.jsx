@@ -23,6 +23,7 @@ class Player extends Component {
     this.onClickBackward = this.onClickBackward.bind(this);
     this.onClickForward = this.onClickForward.bind(this);
     this.onClickList = this.onClickList.bind(this);
+    this.onChangeVolumn = this.onChangeVolumn.bind(this);
   }
 
   componentWillMount () {
@@ -122,6 +123,10 @@ class Player extends Component {
     dispatch(actions.showPlaylist(!showPlaylist));
   }
 
+  onChangeVolumn (event) {
+    this.audio.setVolume(event.target.value / 100);
+  }
+
   onEndOne () {
     const {dispatch, current, playlist, playing} = this.props;
     if(current < playlist.length - 1) {
@@ -161,6 +166,8 @@ class Player extends Component {
           <Icon name='fast-forward' size='2x' onClick={this.onClickForward} disabled={!playing} />
 
           <Icon name='list' size='2x' onClick={this.onClickList} />
+
+          <input type='range' min={0} max={100} defaultValue={100} onChange={this.onChangeVolumn}/>
         </div>
 
         {showPlaylist &&
